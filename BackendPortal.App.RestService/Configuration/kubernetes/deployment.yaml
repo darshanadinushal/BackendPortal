@@ -1,0 +1,32 @@
+﻿apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+    name: adminportalbackend-deployment
+spec:
+  selector: 
+   matchLabels:
+      app: adminportalbackend
+  replicas: 2 
+
+  template:
+    metadata: 
+     labels:
+       app: adminportalbackend
+    spec:
+      containers: 
+      - name: adminportalbackend
+        image: adminportaldockercontainerregistry.azurecr.io/adminportal/webapi:latest
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: adminportalbackend-service
+spec: 
+  selector: 
+    app: adminportalbackend
+  ports:
+    - port: 80
+  type: LoadBalancer
